@@ -22,15 +22,15 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 [image1]: ./examples/car_not_car.png
-[image2]: ./examples/HOG_example.jpg
-[image3]: ./output_images/HLS_Scale_1_5.jpg
-[image4]: ./output_images/HLS_Scale_2.jpg
-[image5]: ./output_images/HSV_Scale_1_5.jpg
-[image6]: ./output_images/HSV_Scale_1_5_Tree_Shadow.jpg
-[image7]: ./output_images/HSV_Scale_2.jpg
-[image8]: ./output_images/HSV_Scale_2_Tree_Shadow.jpg
-[image9]: ./output_images/YCrCb_Scale_1_5.jpg
-[image10]: ./output_images/YCrCb_Scale_2.jpg
+[image2]: ./examples/HOG_example.JPG
+[image3]: ./output_images/HLS_Scale_1_5.JPG
+[image4]: ./output_images/HLS_Scale_2.JPG
+[image5]: ./output_images/HSV_Scale_1_5.JPG
+[image6]: ./output_images/HSV_Scale_1_5_Tree_Shadow.JPG
+[image7]: ./output_images/HSV_Scale_2.JPG
+[image8]: ./output_images/HSV_Scale_2_Tree_Shadow.JPG
+[image9]: ./output_images/YCrCb_Scale_1_5.JPG
+[image10]: ./output_images/YCrCb_Scale_2.JPG
 [video1]: ./project_video.mp4
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
