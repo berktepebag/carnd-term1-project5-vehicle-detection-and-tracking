@@ -21,7 +21,7 @@ The goals / steps of this project are the following:
 * Estimate a bounding box for vehicles detected.
 
 [//]: # (Image References)
-[image1]: ./output_images/car_not_car.JPG "Car - Not Car Example"
+[image1]: ./output_images/car-notcar.JPG "Car - Not Car Example"
 [image2]: ./output_images/car-notcar-hog.JPG "Car - Not Car HOG Example "
 [image3]: ./output_images/HLS_Scale_1_5.JPG "HLS Scale 1.5"
 [image4]: ./output_images/HLS_Scale_2.JPG "HLS Scale 2"
@@ -35,8 +35,8 @@ The goals / steps of this project are the following:
 [image12]: ./output_images/YCrCb_Scale_1_6_2.JPG "YCrCb Scale 1.6"
 [image13]: ./output_images/YCrCb_Scale_1_6_3.JPG "YCrCb Scale 1.6"
 [image14]: ./output_images/YCrCb_Scale_1_6_1_threshold.JPG "YCrCb Scale 1.6 Threshold"
-[image15]: ./output_images/YCrCb_Scale_1_6_2_threshold.JPG "YCrCb Scale 1.6 Threshold"
-[image16]: ./output_images/YCrCb_Scale_1_6_3_threshold.JPG "YCrCb Scale 1.6 Threshold"
+[image15]: ./output_images/YCrCb_Scale_1_6_2__threshold.JPG "YCrCb Scale 1.6 Threshold"
+[image16]: ./output_images/YCrCb_Scale_1_6_3__threshold.JPG "YCrCb Scale 1.6 Threshold"
 
 [video1]: ./project_video.mp4
 
@@ -75,27 +75,28 @@ I tried various combinations of parameters pre threshold:
 ![alt text][image6]
 ![alt text][image7]
 ![alt text][image8]
-#### Applied YCrCb, Scale: 1.5 found cars but detected number was as low as 1 or none. Scale: 2 could not found anything at all. 
+#### Applied YCrCb, Scale: 1.5 found cars but detected number was as low as 1 or none. 
 ![alt text][image9]
+#### Scale: 2 could not found anything at all. 
 ![alt text][image10]
 
 
 #Define Paramaters
-y_start_stop =[400,700] : Cuts Image into half where the cars are not visible anymore. 
-ystart=y_start_stop[0]	: Size of cut image in upper y direction
-ystop=y_start_stop[1]	: Size of cut image in lower y direction
-xy_window = (96,96)		: Size of the searching windows, chosen according to try outs where both cars can be found most of the time.
-overlap = 0.5			: Overlap ratio of the searching boxes 
-color_space='YCrCb'		: Color Space, Tried LUV, YUV, HLS, HSV as can be seen at images. YCrCb suited the best, especially cause less problems with tree shadows. 
-spatial_size=(32, 32)	: resize the car - notcar images into 32x32 pixels where image is still recognazible and provides enough info to get HOG features of the images
-hist_bins=32			: 
-orient=9				: Gradient samples divided into # bins, since image is not big 6-9 gives sufficient information
-pix_per_cell=8			: Dividing search windows into #**2 cells
-cell_per_block=2		: Pixels moved with each step  
-hog_channel="ALL"		: Picked all color channels since there is no dominating color
-spatial_feat=True		: Use spatial features
-hist_feat=True			: Use Color Features
-hog_feat=True			: Use HOG features
+* y_start_stop =[400,700] 	: Cuts Image into half where the cars are not visible anymore. 
+* ystart=y_start_stop[0]	: Size of cut image in upper y direction
+* ystop=y_start_stop[1]		: Size of cut image in lower y direction
+* xy_window = (96,96)		: Size of the searching windows, chosen according to try outs where both cars can be found most of the time.
+* overlap = 0.5				: Overlap ratio of the searching boxes 
+* color_space='YCrCb'		: Color Space, Tried LUV, YUV, HLS, HSV as can be seen at images. YCrCb suited the best, especially cause less problems with tree shadows. 
+* spatial_size=(32, 32)		: resize the car - notcar images into 32x32 pixels where image is still recognazible and provides enough info to get HOG features of the images
+* hist_bins=32				: Color bins 
+* orient=9					: Gradient samples divided into # bins, since image is not big 6-9 gives sufficient information
+* pix_per_cell=8			: Dividing search windows into #**2 cells
+* cell_per_block=2			: Pixels moved with each step  
+* hog_channel="ALL"			: Picked all color channels since there is no dominating color
+* spatial_feat=True			: Use spatial features
+* hist_feat=True			: Use Color Features
+* hog_feat=True				: Use HOG features
 
 
 ####3. Training a classifier using selected HOG features and color features
