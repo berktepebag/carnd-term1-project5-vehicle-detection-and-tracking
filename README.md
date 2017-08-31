@@ -111,9 +111,7 @@ RGB Acc: 0.94, HLS Acc: 0.98, HSV Acc: 0.99, YCrCb Acc: 0.9935. Picked YCrCb as 
 Sliding window size determined with try-outs. I picked a size where close and far cars can be found. Sticked with the overlapping % given in the lecture. 
 
 
-####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
-
-I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+####2. I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result with Scale: 1.6 . Here are some example images:
 
 ![alt text][image11]
 ![alt text][image12]
