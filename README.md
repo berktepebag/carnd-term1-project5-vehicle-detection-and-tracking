@@ -31,14 +31,11 @@ The goals / steps of this project are the following:
 [image8]: ./output_images/HSV_Scale_2_Tree_Shadow.JPG "HSV Scale 2 Shadow Tree Problem"
 [image9]: ./output_images/YCrCb_Scale_1_5.JPG "YCrCb Scale 1.5"
 [image10]: ./output_images/YCrCb_Scale_2.JPG "YCrCb Scale 2"
-[image11]: ./output_images/YCrCb_Scale_1_6_1.JPG "YCrCb Scale 1.6"
-[image12]: ./output_images/YCrCb_Scale_1_6_2.JPG "YCrCb Scale 1.6"
-[image13]: ./output_images/YCrCb_Scale_1_6_3.JPG "YCrCb Scale 1.6"
-[image14]: ./output_images/YCrCb_Scale_1_6_1_threshold.JPG "YCrCb Scale 1.6 Threshold"
-[image15]: ./output_images/YCrCb_Scale_1_6_2__threshold.JPG "YCrCb Scale 1.6 Threshold"
-[image16]: ./output_images/YCrCb_Scale_1_6_3__threshold.JPG "YCrCb Scale 1.6 Threshold"
+[image11]: ./output_images/YCrCb_Scale_18_22.JPG "YCrCb Scale 1.8 and 2.2"
+[image14]: ./output_images/YCrCb_Scale_18_22_threshold.JPG "YCrCb Scale 1.8 and 2.2 Threshold"
 
-[video1]: ./project_video.mp4
+
+[video1]: ./sdcnd-term1-project5-video_final_2.mp4
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
 ###Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -85,7 +82,7 @@ I tried various combinations of parameters pre threshold:
 * y_start_stop =[400,700] 	: Cuts Image into half where the cars are not visible anymore. 
 * ystart=y_start_stop[0]	: Size of cut image in upper y direction
 * ystop=y_start_stop[1]		: Size of cut image in lower y direction
-* xy_window = (96,96)		: Size of the searching windows, chosen according to try outs where both cars can be found most of the time.
+* xy_window = (64,64)		: Size of the searching windows, chosen according to try outs where both cars can be found most of the time. Update: 96x96 window size was causing loss of info due to larger search windows returns lesser amount of positive detections. Decreased to 64x64 window size which returns better positive detections.
 * overlap = 0.5				: Overlap ratio of the searching boxes 
 * color_space='YCrCb'		: Color Space, Tried LUV, YUV, HLS, HSV as can be seen at images. YCrCb suited the best, especially cause less problems with tree shadows. 
 * spatial_size=(32, 32)		: resize the car - notcar images into 32x32 pixels where image is still recognazible and provides enough info to get HOG features of the images
@@ -97,6 +94,9 @@ I tried various combinations of parameters pre threshold:
 * spatial_feat=True			: Use spatial features
 * hist_feat=True			: Use Color Features
 * hog_feat=True				: Use HOG features
+* n_frames=5				: Add: # of frames to be considered finding cars
+* scales = [1.8,2.2]		: Update: Instead of using single 1.6 scale, different scale sizes to find cars when they are closer to horizon or camera
+* threshold=3				: Number of positive detections  to claim it is a car 
 
 
 ####3. Training a classifier using selected HOG features and color features
@@ -108,20 +108,17 @@ RGB Acc: 0.94, HLS Acc: 0.98, HSV Acc: 0.99, YCrCb Acc: 0.9935. Picked YCrCb as 
 
 ####1.Implementing a sliding window search, deciding scales to search and how much to overlap windows
 
-Sliding window size determined with try-outs. I picked a size where close and far cars can be found. Sticked with the overlapping % given in the lecture. 
+Update: Instead of using only one scale (1.6), used 1.8 (closer to horizon) and 2.2 (closer to camera)  scales to find cars. Will add different scale sizes to different distances from the camera to gain some performance.
 
-
-####2. I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result with Scale: 1.6 . Here are some example images:
+####2. I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result with Scale: 1.8 and 2.2 . Here are some example images:
 
 ![alt text][image11]
-![alt text][image12]
-![alt text][image13]
 
 ---
 
 ### Video Implementation
 
-Here's a [link to my video result](https://drive.google.com/open?id=0B1qa2SOuBDHOMk9YUG9mLVVBN00)
+Here's a [link to my video result](https://drive.google.com/open?id=0B1qa2SOuBDHOamhBRGRmRUhZblk)
 
 
 ####2. Filter for false positives and some method for combining overlapping bounding boxes.
@@ -131,15 +128,13 @@ I recorded the positions of positive detections in each frame of the video.  Fro
 
 ### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap (images on the right) from all nine frames and bounding boxes are drawn (on the left):
 ![alt text][image14]
-![alt text][image15]
-![alt text][image16]
 ---
 
 ###Discussion
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-It took some time to decide the parameters, since vehicle sizes are changing during the video it is not possible to find an exact seach window size. It can be fixed by using Multi-Scale windows. After deciding a point sufficient to draw rectangles on the detected cars, rectangles were changing size rapidly which was not eye pleasing. Added draw_labeled_bboxes() an bbox list which saves the bbox's found and when finds a new bbox combines n-1th box with new found bbox with the ratio of 0.8(new bbox) to 0.2(n-1th bbox). Adding more bbox's may cause smoother results.
+It took some time to decide the parameters, since vehicle sizes are changing during the video it is not possible to find an exact seach window size. It can be fixed by using Multi-Scale windows. After deciding a point sufficient to draw rectangles on the detected cars, rectangles were changing size rapidly which was not eye pleasing. (Update: Cancelled this part due to n_frames already doing this. But code can be found commented out if further smoothing is necessary.)Added draw_labeled_bboxes() an bbox list which saves the bbox's found and when finds a new bbox combines n-1th box with new found bbox with the ratio of 0.8(new bbox) to 0.2(n-1th bbox). Adding more bbox's may cause smoother results.
 
 Here is a video [With Smoothing](https://drive.google.com/open?id=0B1qa2SOuBDHObk9KemlfQUJGQW8)
 and [Without Smoothing](https://drive.google.com/open?id=0B1qa2SOuBDHObGl1UEt4d2tsVGc)
